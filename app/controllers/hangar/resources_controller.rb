@@ -3,7 +3,7 @@ module Hangar
 
     def create
       created = FactoryBot.create resource, *traits, resource_attributes
-      render json: created.as_json(include: includes.as_json)
+      render json: created.as_json(include: includes.as_json, methods: methods.as_json)
     end
 
     def new
@@ -28,6 +28,10 @@ module Hangar
 
     def includes
       @includes ||= params[:include].blank? ? [] : params.require(:include)
+    end
+
+    def methods
+      @methods ||= params[:methods].blank? ? [] : params.require(:methods).map(&:to_sym)
     end
   end
 end
